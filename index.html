@@ -53,7 +53,7 @@ INSTRUCTIONS:
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(8px);  /* only the background is blurred */
+  filter: blur(3px);  /* only the background is blurred */
   z-index: 0;
 }
 
@@ -95,9 +95,9 @@ body {
       margin: 0 0 0;             /* Remove bottom margin */
       margin-bottom: 12px;       /* more space below heading */
       font-family: 'Neue Montreal', system-ui, sans-serif;
-      font-weight: 700;
+      font-weight: 750;
       font-style: normal;
-      font-size: 28px;           /* Desktop font size */
+      font-size: 32px;           /* Desktop font size */
       line-height: 1em;
       letter-spacing: -0.5px;
       color: rgb(5, 49, 154);    /* Optional: add this if you want the blue color */
@@ -121,7 +121,7 @@ input[type=date],
 select,
 textarea,
 button.action,
-#submitReasonBtn,
+#submitReasonButton,
 #reasonDropdown {
   font-size: 1em; /* 1em = 125% of default, inherits from .card */
 }
@@ -147,8 +147,8 @@ button.action,
     .danger{color:#b00020}
     .row{display:flex;gap:8px}
       #welcomeMessage{
-        margin-top: 12px;
-        margin-bottom: 12px;
+        margin-top: 8px;
+        margin-bottom: 6px;
         font-weight: 600;
         font-size: 15px;
         color: #0b5cff;
@@ -208,11 +208,6 @@ button.action,
   position: relative;
   z-index: 2; /* bring above background overlay */
 }
-</style>
-</head>
-
-    <style>
-
 
 #inputSection{
   max-width: 400px; /* optional: keeps form neat */
@@ -220,8 +215,8 @@ button.action,
 
 #inputSection label, #reasonSection label {
   display: block;
-  margin-left: 2px;
-  margin-bottom: 2px;
+  margin-left: 4px;
+  margin-bottom: 4px;
   font-weight: bold;
   text-align: left; /* ensures left alignment */
   color: rgb(52,58,64)
@@ -230,7 +225,8 @@ button.action,
   display: none;
   max-width: 400px;
      /* space above the whole section */
-  padding: 16px;         /* breathing room inside */
+  margin-top: 6px;
+     padding: 10px 12px;         /* breathing room inside */
   background: rgba(255,255,255,0.8); /* optional soft background */
   border-radius: 12px;   /* rounded corners */
 }
@@ -243,20 +239,20 @@ button.action,
 
 /* Optional: extra spacing above the 'Please specify' inputs */
 #reasonEvent, #reasonOther {
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
 #reasonDropdown {
   display: block;
   width: 100%;
   padding: 8px 10px;
-  margin-bottom: 12px;   /* space between dropdown and button */
+  margin-bottom: 14px;   /* space between dropdown and button */
   font-size: 14px;
   border-radius: 6px;
   border: 1px solid #ccc;
 }
 
-#submitReasonBtn {
+#submitReasonButton {
   display: block;
   width: 100%;
   padding: 10px;
@@ -267,14 +263,15 @@ button.action,
   color: white;
   cursor: pointer;
   transition: background 0.2s ease;
-  margin-top: 4px;
+  margin-top: 14px;
 }
 
-#submitReasonBtn:hover {
+#submitReasonButton:hover {
   background-color: #0945c2;
 }
 
 </style>
+</head>
 <body>
   <div id="background-wrapper"></div>
   <div id="background-overlay"></div>
@@ -437,7 +434,7 @@ button.action,
 
     handleReasonSubmit(name, phone, email, birthday, faculty, reason, event, other, true);
   }
-}, 10000); // 10000ms = 10s
+}, 12000); // 12000ms = 12s
 
          }
 
