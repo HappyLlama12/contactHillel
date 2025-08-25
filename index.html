@@ -341,7 +341,7 @@ button.action,
       <input type="email" id="email" placeholder="Enter your email address" />
 
       <label for="grad">Estimated Graduation Year</label>
-      <input type="grad" id="grad" placeholder="Enter your estimated year of graduation" />
+      <input type="text" id="grad" placeholder="Enter your estimated year of graduation" />
 
 
       <label for="birthday">What is your birthday? (We want to celebrate you!!)</label>
@@ -369,25 +369,6 @@ button.action,
     <div id="welcomeMessage" style="display:none;"></div>
 
 
-    <div id="reasonSection">
-    <label for="reason">What are you here for today?</label>
-    <select id="reason">
-        <option value="" disabled selected>Select one</option>
-        <option value="Event">Event</option>
-        <option value="See friends">See friends</option>
-        <option value="Food">Food</option>
-        <option value="Study and chill">Study and chill </option>
-        <option value="Other">Other</option>
-    </select>
-
-    <input type="text" id="reasonEvent" placeholder="Please specify" style="display:none;" />
-    <input type="text" id="reasonOther" placeholder="Please specify" style="display:none;" />
-
-    <button id="submitReasonButton" class="action">Check In</button>
-
-    </div>
-
-
     <div id="status"></div>
   </div>
 
@@ -408,12 +389,9 @@ button.action,
     const ENTRY_FOR_NAME = "entry.656388492";
     const ENTRY_FOR_PHONE = "entry.1441271709";
     const ENTRY_FOR_EMAIL = "entry.526705055";
-    const ENTRY_FOR_GRAD = "entry.1705007246" //DO THIS
+    const ENTRY_FOR_GRAD = "entry.1705007246"; //DO THIS
     const ENTRY_FOR_BIRTHDAY = "entry.314239145";
     const ENTRY_FOR_FACULTY = "entry.944762218";
-    const ENTRY_FOR_REASON = "entry.96660997"; 
-    const ENTRY_FOR_EVENT = "entry.1129966221"
-    const ENTRY_FOR_OTHER = "entry.1107637007"
     // ==================
 
     const submitButton = document.getElementById('submitButton');
@@ -421,54 +399,19 @@ button.action,
     const nameInput = document.getElementById('fullName');
     const inputSection = document.getElementById('inputSection');
     const welcomeMessage = document.getElementById('welcomeMessage');
-    const reasonSection = document.getElementById('reasonSection');
-    const reasonSelect = document.getElementById('reason');
-    const reasonEvent = document.getElementById('reasonEvent');
-    const reasonOther = document.getElementById('reasonOther');
 
-    submitButton.addEventListener('click', handleSubmit);
-
- reasonSelect.addEventListener('change', () => {
-  reasonEvent.style.display = "none";
-  reasonOther.style.display = "none";
-  reasonEvent.value = "";
-  reasonOther.value = "";
-
-  if (reasonSelect.value === "Event") {
-    reasonEvent.style.display = "block";
-  } else if (reasonSelect.value === "Other") {
-    reasonOther.style.display = "block";
-  }
-});
 
     function showWelcomeMessage(name, isAuto=false) {
       inputSection.style.display = 'none';
 
-      reasonSelect.value = "";      // reset dropdown
-    reasonEvent.value = "";       // clear text fields
-    reasonOther.value = "";
+      welcomeText = "Thank you for sharing, we are looking forward to being in contact with you!";
       
 
-      let welcomeText;
-      if(isAuto){
-        welcomeText = `Welcome back ${name}, please select why you are here today.`;
-      } else {
-        welcomeText = `Welcome ${name}, please select why you are here today.`;
-      }
-        /*
-        const welcomeText = isAuto
-        ? `Welcome back ${name}, you are checked in!`
-        :(rememberToggle.checked
-          ? `Welcome ${name}, you are checked in!<br>Your name will be remembered for next time on this device.`
-          : `Welcome ${name}, you are checked in!`);
-          */
-
       welcomeMessage.classList.remove('status-auto', 'status-success');
-      welcomeMessage.classList.add('status-auto');
+      welcomeMessage.classList.add('status-success');
       welcomeMessage.innerHTML = welcomeText;
       welcomeMessage.style.display = 'block';
- 
-      reasonSection.style.display = 'block';
+
 
       /*
       welcomeMessage.classList.remove('status-auto', 'status-success');
@@ -478,27 +421,6 @@ button.action,
         welcomeMessage.classList.add('status-success');  // green for normal
       }
       */
-/* TIMEOUT TO SUBMIT COMMENTED OUT FOR NOW
-
-     setTimeout(() => {
-  if (reasonSection.style.display === 'block') {
-    reasonSection.style.display = 'none';
-    const phone = document.getElementById('phone').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const grad = document.getElementById('grad').value.trim();
-    const birthday = document.getElementById('birthday').value;
-    const faculty = document.getElementById('faculty').value;
-
-    // Include reason/event/other or empty strings if not filled
-    const reason = reasonSelect.value || "";
-    const event = reasonEvent.value.trim() || "";
-    const other = reasonOther.value.trim() || "";
-
-    handleReasonSubmit(name, phone, email, grad,birthday, faculty, reason, event, other, true);
-  }
-}, 12000); // 12000ms = 12s
-
-*/
 
          }
 
@@ -517,9 +439,6 @@ button.action,
       const grad = document.getElementById('grad').value.trim();
       const birthday = document.getElementById('birthday').value;
       const faculty = document.getElementById('faculty').value;
-      const reason = reasonSelect.value;
-      const event = reasonEvent.value.trim();
-      const other = reasonOther.value.trim();
       
 
 
@@ -571,6 +490,7 @@ button.action,
         status.textContent = 'Please select your faculty.';
         return;
       }
+      submitGoogle({name,phone,email,grad,birthday,faculty});
 
       showWelcomeMessage(name,false);
 
@@ -602,36 +522,8 @@ button.action,
       //setTimeout(() => {clearDisplay(); status.textContent = ''; }, 5000);
     }
 
-    function handleReasonSubmit (name,phone,email,grad,birthday,faculty,reason,event,other,force = false) {
-
-   if(!force){
-    // reason validation
-    if (!reason) {
-        status.textContent = 'Please select what you are here for today.';
-        return;
-    }
-    if (reason === "Event" && !event) {
-        status.textContent = 'Please specify the event.';
-        return;
-    }
-    if (reason === "Other" && !other) {
-        status.textContent = 'Please specify your reason.';
-        return;
-    }
-  }
-
-    status.textContent = '';
-
-  
-    // submit all data to Google
-    submitGoogle({ name, phone, email, grad, birthday, faculty, reason, event, other});
-
-    welcomeMessage.classList.remove('status-auto', 'status-success'); //remove existing
-    welcomeMessage.classList.add('status-success');  // green for normal
-
-    welcomeMessage.innerHTML = `Thank you ${name}, you are checked in!`;
-    welcomeMessage.style.display = 'block';
-}
+    
+    
     
 
     function clearDisplay() {
@@ -656,17 +548,9 @@ button.action,
         [ENTRY_FOR_EMAIL]: data.email,
         [ENTRY_FOR_GRAD]: data.grad,
         [ENTRY_FOR_BIRTHDAY]: data.birthday,
-        [ENTRY_FOR_FACULTY]: data.faculty,
-        [ENTRY_FOR_REASON]: data.reason,
+        [ENTRY_FOR_FACULTY]: data.faculty
       };
 
-      // only include event/other if relevant
-      if (data.reason === "Event" && data.event) {
-        fields[ENTRY_FOR_EVENT] = data.event;
-      }
-      if (data.reason === "Other" && data.other) {
-        fields[ENTRY_FOR_OTHER] = data.other;
-      }
 
       for (const [key, value] of Object.entries(fields)) {
         const input = document.createElement('input');
@@ -687,26 +571,15 @@ button.action,
     
 
 
-    document.getElementById('submitReasonButton').addEventListener('click', () => {
-      reasonSection.style.display ='none';
+    document.getElementById('submitButton').addEventListener('click', () => {
    const name = nameInput.value.trim();
     const phone = document.getElementById('phone').value.trim();
     const email = document.getElementById('email').value.trim();
     const grad = document.getElementById('grad').value.trim();
     const birthday = document.getElementById('birthday').value;
     const faculty = document.getElementById('faculty').value;
-    const reason = reasonSelect.value;
-    const event = reasonEvent.value.trim();
-    const other = reasonOther.value.trim();
 
-    handleReasonSubmit(name, phone, email, grad, birthday, faculty, reason, event, other);
-    });
-
-    nameInput.addEventListener('keydown', (event) => {
-      if (event.key === "Enter") {
-        event.preventDefault(); // Prevent form submission if inside a form
-        handleSubmit();
-      }
+    handleSubmit(name, phone, email, grad, birthday, faculty);
     });
 
     /*
