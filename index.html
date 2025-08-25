@@ -306,6 +306,36 @@ button.action,
   background-color: #0945c2;
 }
 
+/* Make the group chat container left-aligned */
+#groupChats {
+  display: flex;
+  flex-direction: column; /* stack labels vertically */
+  padding-left: 4px;
+  margin-left: 0;
+}
+
+label.smallCheckbox {
+  display: flex;          /* checkbox + text inline */
+  align-items: center;    /* vertical center of single-line text */
+  gap: 6px;               /* space between checkbox and text */
+  font-size: 12px;
+  line-height: 1.2;
+  color: #292d32;
+  cursor: pointer;
+  margin: 0px 375px 0px 0px ;    /* 4px from left of card, small bottom margin */
+  padding: 2px 0;
+  width: auto;            /* don’t stretch full width */
+  white-space: nowrap;    /* allow text to wrap */
+}
+
+label.smallCheckbox input[type="checkbox"] {
+  flex-shrink: 0;         /* prevent shrinking */
+  width: 12px;
+  height: 12px;
+  padding-left: 4px;
+  margin: 0 0 4px 0;              /* no extra spacing */
+}
+
 </style>
 </head>
 <body>
@@ -314,6 +344,8 @@ button.action,
   <div class="card" role="main">
     
     <h1><strong>Hillel Queen's Contact Form 2025-2026</strong></h1>
+
+    <div id="inputSection">
 
     <div class="intro">
       <h2><strong>Welcome to Hillel Queen’s!</strong></h2>
@@ -330,7 +362,7 @@ button.action,
       <p><strong>Let’s stay connected!<br>- Hillel Exec Team</strong></p>
     </div>
 
-    <div id="inputSection">
+
       <label for="fullName">Full Name</label>
       <input type="text" id="fullName" placeholder="Enter your name" />
 
@@ -340,11 +372,14 @@ button.action,
       <label for="email">Queen's Email Address</label>
       <input type="email" id="email" placeholder="Enter your email address" />
 
+      <!-- Newsletter Subscription -->
+      <label class="smallCheckbox"><input type="checkbox" id="newsletter" checked> I want to join the weekly newsletter</label>
+
       <label for="grad">Estimated Graduation Year</label>
       <input type="text" id="grad" placeholder="Enter your estimated year of graduation" />
 
 
-      <label for="birthday">What is your birthday? (We want to celebrate you!!)</label>
+      <label for="birthday">When is your birthday? (We want to celebrate you!!)</label>
       <input type="date" id="birthday" />
 
       <label for="faculty">Faculty</label>
@@ -361,6 +396,19 @@ button.action,
         <option value="Smith School of Business">Smith School of Business</option>
         <option value="Bader College">Bader College</option>
       </select>
+
+      <!-- Group Chat Selection -->
+      <label for="groupChats">Are you interested in joining any of the following Hillel Queen's group chats? Select all that apply.</label>
+      <div id="groupChats">
+        <label class="smallCheckbox"><input type="checkbox" value="Hillel Queen's Student Community"> Hillel Queen's Student Community</label>
+        <label class="smallCheckbox"><input type="checkbox" value="Queen's Jews Class of 2029"> Queen's Jews Class of 2029 (only for people in that year)</label>
+        <label class="smallCheckbox"><input type="checkbox" value="Queen's Jews Class of 2028"> Queen's Jews Class of 2028 (only for people in that year)</label>
+        <label class="smallCheckbox"><input type="checkbox" value="Queen's Jews Class of 2027"> Queen's Jews Class of 2027 (only for people in that year)</label>
+        <label class="smallCheckbox"><input type="checkbox" value="Lev Kingston"> Lev Kingston</label>
+        <label class="smallCheckbox"><input type="checkbox" value="Rainbow Jews"> Rainbow Jews</label>
+        <label class="smallCheckbox"><input type="checkbox" value="Jewski Queen's"> Jewski Queen's</label>
+        <label class="smallCheckbox"><input type="checkbox" value="Jews at Queen's"> Jews at Queen's</label>
+      </div>
 
       <button id="submitButton" class="action" type = "button">Submit</button>
 
@@ -389,9 +437,12 @@ button.action,
     const ENTRY_FOR_NAME = "entry.656388492";
     const ENTRY_FOR_PHONE = "entry.1441271709";
     const ENTRY_FOR_EMAIL = "entry.526705055";
-    const ENTRY_FOR_GRAD = "entry.1705007246"; //DO THIS
+    const ENTRY_FOR_NEWSLETTER = "entry.215083462"; // replace with your Google Form field ID
+    const ENTRY_FOR_GRAD = "entry.1705007246";
     const ENTRY_FOR_BIRTHDAY = "entry.314239145";
     const ENTRY_FOR_FACULTY = "entry.944762218";
+    const ENTRY_FOR_GROUPCHATS = "entry.1647527641"; // replace with your Google Form field ID
+
     // ==================
 
     const submitButton = document.getElementById('submitButton');
@@ -399,6 +450,7 @@ button.action,
     const nameInput = document.getElementById('fullName');
     const inputSection = document.getElementById('inputSection');
     const welcomeMessage = document.getElementById('welcomeMessage');
+    
 
 
     function showWelcomeMessage(name, isAuto=false) {
@@ -411,16 +463,9 @@ button.action,
       welcomeMessage.classList.add('status-success');
       welcomeMessage.innerHTML = welcomeText;
       welcomeMessage.style.display = 'block';
+      inputSection.style.display = "none";
 
-
-      /*
-      welcomeMessage.classList.remove('status-auto', 'status-success');
-      if (isAuto) {
-        welcomeMessage.classList.add('status-auto');
-      } else {
-        welcomeMessage.classList.add('status-success');  // green for normal
-      }
-      */
+      setTimeout(() => {clearDisplay(); status.textContent = ''; }, 1500);
 
          }
 
@@ -439,8 +484,12 @@ button.action,
       const grad = document.getElementById('grad').value.trim();
       const birthday = document.getElementById('birthday').value;
       const faculty = document.getElementById('faculty').value;
+      const newsletter = document.getElementById('newsletter').checked ? 'Yes' : 'No';
       
-
+      // get selected group chats
+      const groupChats = Array.from(document.querySelectorAll('#groupChats input[type="checkbox"]:checked'))
+                          .map(cb => cb.value)
+                          .join(", "); // join as comma-separated string
 
       //clear any previous error
       status.textContent = '';
@@ -490,40 +539,14 @@ button.action,
         status.textContent = 'Please select your faculty.';
         return;
       }
-      submitGoogle({name,phone,email,grad,birthday,faculty});
+
+      submitGoogle({name,phone,email,newsletter,grad,birthday,faculty,groupChats});
 
       showWelcomeMessage(name,false);
 
-      /*
-          // validation
-    if (!reason) {
-      status.textContent = 'Please select what you are here for today.';
-      return;
-    }
 
-    if (reason === "Event" && !event) {
-      status.textContent = 'Please specify the event.';
-      return;
-    }
+       }
 
-    if (reason === "Other" && !other) {
-      status.textContent = 'Please specify your reason.';
-      return;
-    }
-      
-    */
-
-      /*if (rememberToggle.checked){
-        status.innerHTML = `Welcome ${name}, you are checked in!<br>Your name will be remembered for next time on this device.`;
-      } else {
-        status.textContent = `Welcome ${name}, you are checked in!`;
-      }*/
-      
-      //setTimeout(() => {clearDisplay(); status.textContent = ''; }, 5000);
-    }
-
-    
-    
     
 
     function clearDisplay() {
@@ -546,9 +569,10 @@ button.action,
         [ENTRY_FOR_NAME]: data.name,
         [ENTRY_FOR_PHONE]: data.phone,
         [ENTRY_FOR_EMAIL]: data.email,
+        [ENTRY_FOR_NEWSLETTER]: data.newsletter,
         [ENTRY_FOR_GRAD]: data.grad,
         [ENTRY_FOR_BIRTHDAY]: data.birthday,
-        [ENTRY_FOR_FACULTY]: data.faculty
+        [ENTRY_FOR_FACULTY]: data.faculty,
       };
 
 
@@ -560,6 +584,19 @@ button.action,
         form.appendChild(input);
       }
 
+    // group chats: one hidden input per selected option
+    if (data.groupChats) {
+        data.groupChats.split(", ").forEach(option => {
+            if(option !== "None"){  // ignore "None" if checked
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = ENTRY_FOR_GROUPCHATS;
+                input.value = option;
+                form.appendChild(input);
+            }
+        });
+    }
+
       // append & submit
       document.body.appendChild(form);
       form.submit();
@@ -567,28 +604,39 @@ button.action,
       // cleanup after a short delay
       setTimeout(()=>{ try{ document.body.removeChild(form);}catch(e){} }, 1500);
     }
-    
-    
 
 
     document.getElementById('submitButton').addEventListener('click', () => {
-   const name = nameInput.value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const grad = document.getElementById('grad').value.trim();
-    const birthday = document.getElementById('birthday').value;
-    const faculty = document.getElementById('faculty').value;
 
-    handleSubmit(name, phone, email, grad, birthday, faculty);
+    handleSubmit();
     });
 
-    /*
-    clearBtn.addEventListener('click', () => {
-      clearDisplay();
-    }); */
+    // Auto-submit fallback after 15 seconds
+    setTimeout(() => {
+      autoSubmitIfAnyFilled();
+    }, 15000); // 15000ms = 15s
 
-    // ORRRRRR clearBtn.addEventListener('click', clearDisplay);
+    function autoSubmitIfAnyFilled() {
+      const name = nameInput.value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const grad = document.getElementById('grad').value.trim();
+      const birthday = document.getElementById('birthday').value;
+      const faculty = document.getElementById('faculty').value;
 
+      // check if at least one field has data (ignoring newsletter checkbox)
+      if (name || phone || email || grad || birthday || faculty) {
+        // get selected group chats
+        const groupChats = Array.from(document.querySelectorAll('#groupChats input[type="checkbox"]:checked'))
+                                .map(cb => cb.value)
+                                .join(", "); 
+
+        const newsletter = document.getElementById('newsletter').checked ? 'Yes' : 'No';
+
+        submitGoogle({name, phone, email, newsletter, grad, birthday, faculty, groupChats});
+        showWelcomeMessage(name, true); // true = auto submit
+      }
+    }
 
   </script>
 </body>
