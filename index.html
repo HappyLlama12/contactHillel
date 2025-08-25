@@ -66,30 +66,34 @@ INSTRUCTIONS:
   z-index: 1;
 }
 
-/* Centered card stays above */
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+  margin: 0;
+  padding: 20px;        /* adds breathing room from top/edges */
   position: relative;
-  z-index: 2; /* ensures card is above overlay */
-  font-size: 13px
+  z-index: 2;
+  font-size: 13px;
+  overflow-y: auto;      /* ensures scroll if content taller than screen */
 }
 
 /* Your card */
 .card {
   position: relative;
   z-index: 2;
-  width: 330px;
+  width: 400px;
   max-width: 92vw;
   background: var(--card);
   padding: 14px;
   border-radius: 10px;
   box-shadow: 0 6px 18px rgba(0,0,0,.08);
-  text-align: center;
-  font-size: 125%;
+  text-align: left;
+  font-size: 130%;
+  margin: 0 auto;        /* centers card horizontally */
 }
+    strong, b {
+      font-family: 'Gilroy Bold', 'Gilroy', system-ui, sans-serif;
+      font-weight: 900;
+     /* color: #000;*/ /* optional: makes it true black */
+    }
     /* Only h1 uses Neue Montreal */
     h1 {
       margin: 0 0 0;             /* Remove bottom margin */
@@ -107,6 +111,36 @@ body {
         font-size: 22px;
       }
     }
+    h2{
+      margin: 0 0 0;             /* Remove bottom margin */      /* more space below heading */
+      font-family: 'Neue Montreal', system-ui, sans-serif;
+      font-weight: 500;
+      font-style: normal;
+      color: #292d32;
+      font-size: 24px;           /* Desktop font size */
+      line-height: 1em;
+      letter-spacing: -0.5px;
+      /*color: rgb(5, 49, 154);*/    /* Optional: add this if you want the blue color */
+    }
+    @media (max-width: 1023px) {
+      h2 {
+        font-size: 16px;
+      }
+    }
+
+    .intro p, .intro ul {
+      font-size: 12px;     /* keep body text readable */
+      line-height: 1.4;
+      margin-bottom: 10px;
+      display: block;
+      margin-left: 4px;
+      text-align: left;
+      color: #292d32;
+    }
+
+    .intro ul {
+      padding-left: 30px;  /* indent bullet list */
+    }
 
     /* Placeholder text also scales */
 input::placeholder,
@@ -116,7 +150,9 @@ textarea::placeholder {
 
     input[type=text],
 input[type=tel],
+input[type=grad],
 input[type=email],
+input[type=grad],
 input[type=date],
 select,
 textarea,
@@ -126,8 +162,8 @@ button.action,
   font-size: 1em; /* 1em = 125% of default, inherits from .card */
 }
     
-    input[type=text],input[type=tel],input[type=email],input[type=date]{width:100%;padding:10px 10px;font-size:12px;margin-bottom:8px;border-radius:5px;border:none; background-color: rgb(230,230,230); box-sizing:border-box; font-family: Gilroy, Arial, Helvetica, sans-serif; color: rgb(52,58,64);}
-    input[type=text]:focus, input[type=email]:focus,input[type=tel]:focus,input[type=date]:focus,select:focus{
+    input[type=text],input[type=tel],input[type=email],input[type='grad'],input[type=date]{width:100%;padding:10px 10px;font-size:12px;margin-bottom:8px;border-radius:5px;border:none; background-color: rgb(230,230,230); box-sizing:border-box; font-family: Gilroy, Arial, Helvetica, sans-serif; color: rgb(52,58,64);}
+    input[type=text]:focus, input[type=email]:focus, input[type='grad'],input[type=tel]:focus,input[type=date]:focus,select:focus{
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 3px var(--accent);
@@ -139,7 +175,7 @@ button.action,
       color: rgb(52, 58, 64) !important;
     }
       */
-    button.action{width: 100%;height: auto; background-color: rgb(5,49,154); color: white; border: none; border-radius: 5px; padding: 8px 14px; font-family: 'Gilroy Bold', system-ui, sans-serif;font-size: 14px; cursor: pointer; letter-spacing: 0px; text-align: center; line-height: 1.2;}
+    button.action{width: 100%;height: auto; background-color: rgb(5,49,154); color: white; border: none; border-radius: 5px; padding: 8px 14px; font-family: 'Gilroy Bold', system-ui, sans-serif;font-size: 18px; cursor: pointer; letter-spacing: 0px; text-align: center; line-height: 1.2;}
     button.action:hover { background-color: rgb(4,40,125); }
     .outlined-btn{background: #d3d3d3; border: 3px #363636;color: #363636;border-radius: 4px;padding: 4px 8px;cursor: pointer;margin: 2px;font-size: 12px;}
     #status{margin-top:8px;font-weight:600;font-size:12px; color: #b00020}
@@ -213,13 +249,13 @@ button.action,
   max-width: 400px; /* optional: keeps form neat */
 }
 
-#inputSection label, #reasonSection label {
+#inputSection label, #reasonSection label{
   display: block;
   margin-left: 4px;
   margin-bottom: 4px;
   font-weight: bold;
   text-align: left; /* ensures left alignment */
-  color: rgb(52,58,64)
+  color: #292d32;
 }
 #reasonSection {
   display: none;
@@ -256,7 +292,7 @@ button.action,
   display: block;
   width: 100%;
   padding: 10px;
-  font-size: 14px;
+  font-size: 20px;
   border: none;
   border-radius: 6px;
   background-color: #0b5cff;
@@ -276,7 +312,23 @@ button.action,
   <div id="background-wrapper"></div>
   <div id="background-overlay"></div>
   <div class="card" role="main">
-    <h1>Hillel Check‑In</h1>
+    
+    <h1><strong>Hillel Queen's Contact Form 2025-2026</strong></h1>
+
+    <div class="intro">
+      <h2><strong>Welcome to Hillel Queen’s!</strong></h2>
+      <p>We’re so excited to connect with you this year. Please fill out this form so we can keep you updated on everything happening at Hillel Queen’s!</p>
+
+      <p><strong><u>By sharing your contact information, you’ll receive:</u></strong></p>
+      <ul>
+        <li>📱 <strong>Access to our group chats</strong> for easy communication and community connection</li>
+        <li>📩 <strong>Our weekly newsletter with upcoming events</strong>, opportunities, and announcements</li>
+        <li>🎉 <strong>Invitations and reminders for special programs</strong>, Shabbat dinners, and holiday celebrations</li>
+      </ul>
+
+      <p>Your information will only be used for Hillel Queen’s communications and will not be shared outside of our organization.</p>
+      <p><strong>Let’s stay connected!<br>- Hillel Exec Team</strong></p>
+    </div>
 
     <div id="inputSection">
       <label for="fullName">Full Name</label>
@@ -285,10 +337,14 @@ button.action,
       <label for="phone">Telephone Number</label>
       <input type="tel" id="phone" placeholder="Enter your phone number (optional)" />
 
-      <label for="email">Email Address</label>
+      <label for="email">Queen's Email Address</label>
       <input type="email" id="email" placeholder="Enter your email address" />
 
-      <label for="birthday">Birth Date</label>
+      <label for="grad">Estimated Graduation Year</label>
+      <input type="grad" id="grad" placeholder="Enter your estimated year of graduation" />
+
+
+      <label for="birthday">What is your birthday? (We want to celebrate you!!)</label>
       <input type="date" id="birthday" />
 
       <label for="faculty">Faculty</label>
@@ -306,7 +362,7 @@ button.action,
         <option value="Bader College">Bader College</option>
       </select>
 
-      <button id="submitBtn" class="action">Submit</button>
+      <button id="submitButton" class="action" type = "button">Submit</button>
 
     </div>
 
@@ -347,19 +403,20 @@ button.action,
   <script>
     // ===== CONFIG =====
     // replace as such: https://docs.google.com/forms/d/e/REPLACE THIS/formResponse
-    const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSfPnXxEoYzguANdgGv50mgTEy-4FMck8Put9xeSFQidY-saEw/formResponse";
+    const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSe6THOoji7Od1OPWIDZtDdErGcVfjFhfCm9p87-CFntsrFiiQ/formResponse";
     // replace with your Google Form field IDs
-    const ENTRY_FOR_NAME = "entry.1175346215";
-    const ENTRY_FOR_PHONE = "entry.182738576";
-    const ENTRY_FOR_EMAIL = "entry.828492435";
-    const ENTRY_FOR_BIRTHDAY = "entry.1366000127";
-    const ENTRY_FOR_FACULTY = "entry.842181194";
+    const ENTRY_FOR_NAME = "entry.656388492";
+    const ENTRY_FOR_PHONE = "entry.1441271709";
+    const ENTRY_FOR_EMAIL = "entry.526705055";
+    const ENTRY_FOR_GRAD = "entry.1705007246" //DO THIS
+    const ENTRY_FOR_BIRTHDAY = "entry.314239145";
+    const ENTRY_FOR_FACULTY = "entry.944762218";
     const ENTRY_FOR_REASON = "entry.96660997"; 
     const ENTRY_FOR_EVENT = "entry.1129966221"
     const ENTRY_FOR_OTHER = "entry.1107637007"
     // ==================
 
-    const submitBtn = document.getElementById('submitBtn');
+    const submitButton = document.getElementById('submitButton');
     const status = document.getElementById('status');
     const nameInput = document.getElementById('fullName');
     const inputSection = document.getElementById('inputSection');
@@ -368,6 +425,8 @@ button.action,
     const reasonSelect = document.getElementById('reason');
     const reasonEvent = document.getElementById('reasonEvent');
     const reasonOther = document.getElementById('reasonOther');
+
+    submitButton.addEventListener('click', handleSubmit);
 
  reasonSelect.addEventListener('change', () => {
   reasonEvent.style.display = "none";
@@ -419,11 +478,14 @@ button.action,
         welcomeMessage.classList.add('status-success');  // green for normal
       }
       */
+/* TIMEOUT TO SUBMIT COMMENTED OUT FOR NOW
+
      setTimeout(() => {
   if (reasonSection.style.display === 'block') {
     reasonSection.style.display = 'none';
     const phone = document.getElementById('phone').value.trim();
     const email = document.getElementById('email').value.trim();
+    const grad = document.getElementById('grad').value.trim();
     const birthday = document.getElementById('birthday').value;
     const faculty = document.getElementById('faculty').value;
 
@@ -432,9 +494,11 @@ button.action,
     const event = reasonEvent.value.trim() || "";
     const other = reasonOther.value.trim() || "";
 
-    handleReasonSubmit(name, phone, email, birthday, faculty, reason, event, other, true);
+    handleReasonSubmit(name, phone, email, grad,birthday, faculty, reason, event, other, true);
   }
 }, 12000); // 12000ms = 12s
+
+*/
 
          }
 
@@ -450,6 +514,7 @@ button.action,
       const name = nameInput.value.trim();
       const phone = document.getElementById('phone').value.trim();
       const email = document.getElementById('email').value.trim();
+      const grad = document.getElementById('grad').value.trim();
       const birthday = document.getElementById('birthday').value;
       const faculty = document.getElementById('faculty').value;
       const reason = reasonSelect.value;
@@ -486,6 +551,12 @@ button.action,
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
         status.textContent = 'Please enter a valid email address.';
+        return;
+      }
+
+      //validate grad year
+      if (grad.length!==4||isNaN(grad)){
+        status.textContent = 'Please enter a valid 4-digit graduation year.';
         return;
       }
 
@@ -531,7 +602,7 @@ button.action,
       //setTimeout(() => {clearDisplay(); status.textContent = ''; }, 5000);
     }
 
-    function handleReasonSubmit (name,phone,email,birthday,faculty,reason,event,other,force = false) {
+    function handleReasonSubmit (name,phone,email,grad,birthday,faculty,reason,event,other,force = false) {
 
    if(!force){
     // reason validation
@@ -553,7 +624,7 @@ button.action,
 
   
     // submit all data to Google
-    submitGoogle({ name, phone, email, birthday, faculty, reason, event, other});
+    submitGoogle({ name, phone, email, grad, birthday, faculty, reason, event, other});
 
     welcomeMessage.classList.remove('status-auto', 'status-success'); //remove existing
     welcomeMessage.classList.add('status-success');  // green for normal
@@ -583,6 +654,7 @@ button.action,
         [ENTRY_FOR_NAME]: data.name,
         [ENTRY_FOR_PHONE]: data.phone,
         [ENTRY_FOR_EMAIL]: data.email,
+        [ENTRY_FOR_GRAD]: data.grad,
         [ENTRY_FOR_BIRTHDAY]: data.birthday,
         [ENTRY_FOR_FACULTY]: data.faculty,
         [ENTRY_FOR_REASON]: data.reason,
@@ -613,20 +685,21 @@ button.action,
     }
     
     
-    submitBtn.addEventListener('click', handleSubmit);
+
 
     document.getElementById('submitReasonButton').addEventListener('click', () => {
       reasonSection.style.display ='none';
    const name = nameInput.value.trim();
     const phone = document.getElementById('phone').value.trim();
     const email = document.getElementById('email').value.trim();
+    const grad = document.getElementById('grad').value.trim();
     const birthday = document.getElementById('birthday').value;
     const faculty = document.getElementById('faculty').value;
     const reason = reasonSelect.value;
     const event = reasonEvent.value.trim();
     const other = reasonOther.value.trim();
 
-    handleReasonSubmit(name, phone, email, birthday, faculty, reason, event, other);
+    handleReasonSubmit(name, phone, email, grad, birthday, faculty, reason, event, other);
     });
 
     nameInput.addEventListener('keydown', (event) => {
