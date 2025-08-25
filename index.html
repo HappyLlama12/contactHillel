@@ -432,16 +432,16 @@ label.smallCheckbox input[type="checkbox"] {
   <script>
     // ===== CONFIG =====
     // replace as such: https://docs.google.com/forms/d/e/REPLACE THIS/formResponse
-    const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSe6THOoji7Od1OPWIDZtDdErGcVfjFhfCm9p87-CFntsrFiiQ/formResponse";
+    const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSd2MiuvYW-n1ex48YpLicISUYaokSFtWsW9l977IH_vElhVTw/formResponse";
     // replace with your Google Form field IDs
-    const ENTRY_FOR_NAME = "entry.656388492";
-    const ENTRY_FOR_PHONE = "entry.1441271709";
-    const ENTRY_FOR_EMAIL = "entry.526705055";
-    const ENTRY_FOR_NEWSLETTER = "entry.215083462"; // replace with your Google Form field ID
-    const ENTRY_FOR_GRAD = "entry.1705007246";
-    const ENTRY_FOR_BIRTHDAY = "entry.314239145";
-    const ENTRY_FOR_FACULTY = "entry.944762218";
-    const ENTRY_FOR_GROUPCHATS = "entry.1647527641"; // replace with your Google Form field ID
+    const ENTRY_FOR_NAME = "entry.474565171";
+    const ENTRY_FOR_PHONE = "entry.1002864921";
+    const ENTRY_FOR_EMAIL = "entry.706071998";
+    const ENTRY_FOR_NEWSLETTER = "entry.2040819415";
+    const ENTRY_FOR_GRADYEAR = "entry.1573048952";
+    const ENTRY_FOR_BIRTHDAY = "entry.295726554";
+    const ENTRY_FOR_FACULTY = "entry.546594758";
+    const ENTRY_FOR_GROUPCHAT = "entry.114880239";
 
     // ==================
 
@@ -570,7 +570,7 @@ label.smallCheckbox input[type="checkbox"] {
         [ENTRY_FOR_PHONE]: data.phone,
         [ENTRY_FOR_EMAIL]: data.email,
         [ENTRY_FOR_NEWSLETTER]: data.newsletter,
-        [ENTRY_FOR_GRAD]: data.grad,
+        [ENTRY_FOR_GRADYEAR]: data.grad,
         [ENTRY_FOR_BIRTHDAY]: data.birthday,
         [ENTRY_FOR_FACULTY]: data.faculty,
       };
@@ -590,7 +590,7 @@ label.smallCheckbox input[type="checkbox"] {
             if(option !== "None"){  // ignore "None" if checked
                 const input = document.createElement('input');
                 input.type = 'hidden';
-                input.name = ENTRY_FOR_GROUPCHATS;
+                input.name = ENTRY_FOR_GROUPCHAT;
                 input.value = option;
                 form.appendChild(input);
             }
@@ -614,7 +614,7 @@ label.smallCheckbox input[type="checkbox"] {
     // Auto-submit fallback after 15 seconds
     setTimeout(() => {
       autoSubmitIfAnyFilled();
-    }, 15000); // 15000ms = 15s
+    }, 20000); // 15000ms = 15s
 
     function autoSubmitIfAnyFilled() {
       const name = nameInput.value.trim();
