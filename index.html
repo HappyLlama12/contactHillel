@@ -358,7 +358,7 @@ label.smallCheckbox input[type="checkbox"] {
         <li>🎉 <strong>Invitations and reminders for special programs</strong>, Shabbat dinners, and holiday celebrations</li>
       </ul>
 
-      <p>Your information will only be used for Hillel Queen’s communications and will not be shared outside of our organization.</p>
+      <p>Your information will only be used for Hillel Queen’s communications and will not be shared outside of our organization.<br>Additionally, this form will autosubmit after 5 minutes.</p>
       <p><strong>Let’s stay connected!<br>- Hillel Exec Team</strong></p>
     </div>
 
@@ -614,7 +614,7 @@ label.smallCheckbox input[type="checkbox"] {
     // Auto-submit fallback after 15 seconds
     setTimeout(() => {
       autoSubmitIfAnyFilled();
-    }, 180000); // 45000ms = 15s
+    }, 300000); // 300000ms = 5 minutes
 
     function autoSubmitIfAnyFilled() {
       const name = nameInput.value.trim();
